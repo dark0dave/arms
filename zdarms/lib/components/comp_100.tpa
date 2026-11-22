@@ -1,0 +1,73 @@
+//
+// Restore Existing
+//
+
+// Blackjack will be rogue/bard skill
+// Gun will be fighter/rogue/ranger skill
+// Martial Arts will be monk only skill
+
+// 128 spaces
+COPY_EXISTING ~wprof.ids~ ~override~
+  COUNT_2DA_COLS column_count
+  SET init = 88 // starts at 89
+  SET done = 0
+  FOR (i = 1; i < 128 && done == 0; ++i) BEGIN
+    READ_2DA_ENTRY i 0 column_count id
+    SET index = i + init
+    PATCH_IF (index != id) BEGIN
+      INSERT_2DA_ROW i column_count ~109 PROFICIENCYGUN~
+      SET i += 1
+      INSERT_2DA_ROW i column_count ~110 PROFICIENCYMARTIALARTS~
+      SET done = 1
+    END
+  END
+BUT_ONLY
+
+// Blackjack
+COPY_EXISTING ~weapprof.2da~ ~override~
+  COUNT_2DA_COLS column_count
+  COUNT_2DA_ROWS column_count row_count
+  SET insert_index = 0
+  FOR (i = 1; i < row_count && insert_index == 0; ++i) BEGIN
+    READ_2DA_ENTRY i 1 column_count weapon_id
+    PATCH_PRINT ~%weapon_id%~
+    PATCH_IF (~%weapon_id%~ STR_EQ ~107~) BEGIN
+      SET insert_index = i+1
+    END
+  END
+  INSERT_2DA_ROW insert_index column_count ~BLACKJACK                108~
+  PRETTY_PRINT_2DA
+UNLESS ~BLACKJACK~
+BUT_ONLY
+
+// Gun
+COPY_EXISTING ~weapprof.2da~ ~override~
+  COUNT_2DA_COLS column_count
+  COUNT_2DA_ROWS column_count row_count
+  SET insert_index = 0
+  FOR (i = 1; i < row_count && insert_index == 0; ++i) BEGIN
+    READ_2DA_ENTRY i 1 column_count weapon_id
+    PATCH_IF (~%weapon_id%~ STR_EQ ~107~) BEGIN
+      SET insert_index = i+1
+    END
+  END
+  INSERT_2DA_ROW insert_index column_count ~GUN                      109~
+  PRETTY_PRINT_2DA
+UNLESS ~GUN~
+BUT_ONLY
+
+// MARTIALARTS
+COPY_EXISTING ~weapprof.2da~ ~override~
+  COUNT_2DA_COLS column_count
+  COUNT_2DA_ROWS column_count row_count
+  SET insert_index = 0
+  FOR (i = 1; i < row_count && insert_index == 0; ++i) BEGIN
+    READ_2DA_ENTRY i 1 column_count weapon_id
+    PATCH_IF (~%weapon_id%~ STR_EQ ~107~) BEGIN
+      SET insert_index = i+1
+    END
+  END
+  INSERT_2DA_ROW insert_index column_count ~MARTIALARTS              110~
+  PRETTY_PRINT_2DA
+UNLESS ~MARTIALARTS~
+BUT_ONLY

@@ -1,0 +1,25 @@
+BACKUP ~weidu_external/zdarms/backup~
+SUPPORT "https://github.com/dark0dave/arms/issues"
+VERSION ~0.1.0~
+README ~zdarms/readme.md~
+ASK_EVERY_COMPONENT
+// MODDER
+// setup_tra warn
+// area_variables warn
+// missing_extern warn
+// missing_resref warn
+// ict2_actions warn
+// missing_eval warn
+// overwriting_file warn
+// fun_args warn
+
+ALWAYS
+  INCLUDE ~zdarms/lib/always.tph~
+END
+
+LANGUAGE ~English~ ~en_US~ ~zdarms/lang/english/setup.tra~
+
+BEGIN ~Restore~
+DESIGNATED 100
+LABEL ~Core~
+REQUIRE_PREDICATE (GAME_IS ~bgee bg2ee eet~) ~This component is for BGEE, BG2:EE or EET.~
